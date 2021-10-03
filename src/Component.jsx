@@ -1,60 +1,76 @@
 import { useState } from 'react';
 import {
   TextField,
+  Grid,
   Typography,
-  Box,
   List,
   ListItem,
   ListItemText,
 } from '@mui/material';
 
 function Component() {
-  const apiKey = `o6Xcd70ACWFPw6w7VPN2OFOUNvrgMP5grQbnVFY6`;
+  const apiKey = process.env.REACT_APP_API_KEY;
   const baseUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${apiKey}&query=`;
 
   const [foods, setFoods] = useState([]);
-  const [nutrients, setNutrients] = useState([]);
-  const [showNutrients, setShowNutrients] = useState(false);
+  const [nutrients, setNutrients] = useState([
+    { nutrientId: 1003, name: 'Protein', value: 0, unit: 'g' },
+    { nutrientId: 2000, name: 'Sugar', value: 0, unit: 'g' },
+  ]);
 
-  const handleFoodSearch = async (input) => {
+  const handleSearch = async (input) => {
     const url = `${baseUrl}${input}`;
     const res = await fetch(url);
     const body = await res.json();
-    setShowNutrients(false);
     setFoods(body.foods);
   };
 
-  const handleNutrientSearch = async (input) => {
-    setShowNutrients(true);
-    setNutrients(input.foodNutrients);
+  const handleSelect = async (input) => {
+    const selectedNutrients = input.foodNutrients;
+    let index = 0;
+    selectedNutrients.forEach((nutrient) => {
+      index = nutrients.findIndex(
+        (obj) => obj.nutrientId === nutrient.nutrientId
+      );
+      if (index >= 0) {
+        let updatedNutrients = [...nutrients];
+        updatedNutrients[index].value = nutrient.value;
+        setNutrients(updatedNutrients);
+      }
+    });
   };
 
   return (
-    <Box>
-      <Typography variant="h3">Nutrient Tracker</Typography>
-      <TextField onChange={(e) => handleFoodSearch(e.target.value)} />
-      {!showNutrients ? (
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h3">Nutrient Tracker</Typography>
+      </Grid>
+      <Grid item xs={6}>
+        <TextField onChange={(e) => handleSearch(e.target.value)} />
         <List>
-          {foods.map((food) => {
+          {foods.map((food, index) => {
             return (
-              <ListItem onClick={() => handleNutrientSearch(food)}>
+              <ListItem key={index} onClick={() => handleSelect(food)}>
                 <ListItemText primary={food.description} />
               </ListItem>
             );
           })}
         </List>
-      ) : (
+      </Grid>
+      <Grid item xs={6}>
         <List>
-          {nutrients.map((nutrient) => {
+          {nutrients.map((nutrient, index) => {
             return (
-              <ListItem>
-                <ListItemText primary={nutrient.nutrientName} />
+              <ListItem key={index}>
+                <ListItemText
+                  primary={`${nutrient.name}: ${nutrient.value}${nutrient.unit}`}
+                />
               </ListItem>
             );
           })}
         </List>
-      )}
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
 
