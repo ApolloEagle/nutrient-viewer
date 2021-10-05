@@ -1,5 +1,5 @@
 import { useState } from "react";
-import round from "lodash/round";
+import { round, divide } from "lodash";
 import {
   TextField,
   Box,
@@ -9,7 +9,9 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
+  InputAdornment,
 } from "@mui/material";
+import Search from "@mui/icons-material/Search";
 
 function Content() {
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -19,15 +21,27 @@ function Content() {
   const [selectedFoods, setSelectedFoods] = useState([]);
   const [renderList, setRenderList] = useState(false);
   const [nutrients, setNutrients] = useState([
-    { nutrientId: 1003, name: "Protein", value: 0, unit: "g" },
-    { nutrientId: 2000, name: "Sugar", value: 0, unit: "g" },
-    { nutrientId: 1253, name: "Cholesterol", value: 0, unit: "mg" },
-    { nutrientId: 1079, name: "Fiber", value: 0, unit: "g" },
-    { nutrientId: 1258, name: "Saturated Fat", value: 0, unit: "g" },
-    { nutrientId: 1292, name: "Monounsaturated Fat", value: 0, unit: "g" },
-    { nutrientId: 1293, name: "Polyunsaturated Fat", value: 0, unit: "g" },
-    { nutrientId: 1093, name: "Sodium", value: 0, unit: "mg" },
-    { nutrientId: 1092, name: "Potassium", value: 0, unit: "mg" },
+    { nutrientId: 1003, name: "Protein", value: 0, unit: "g", dri: 150 },
+    { nutrientId: 2000, name: "Sugar", value: 0, unit: "g", dri: 25 },
+    { nutrientId: 1253, name: "Cholesterol", value: 0, unit: "mg", dri: 300 },
+    { nutrientId: 1079, name: "Fiber", value: 0, unit: "g", dri: 30 },
+    { nutrientId: 1258, name: "Saturated Fat", value: 0, unit: "g", dri: 20 },
+    {
+      nutrientId: 1292,
+      name: "Monounsaturated Fat",
+      value: 0,
+      unit: "g",
+      dri: 30,
+    },
+    {
+      nutrientId: 1293,
+      name: "Polyunsaturated Fat",
+      value: 0,
+      unit: "g",
+      dri: 30,
+    },
+    { nutrientId: 1093, name: "Sodium", value: 0, unit: "mg", dri: 1500 },
+    { nutrientId: 1092, name: "Potassium", value: 0, unit: "mg", dri: 4500 },
   ]);
 
   console.log(selectedFoods);
@@ -48,6 +62,7 @@ function Content() {
 
   const handleSelect = async (input) => {
     setSelectedFoods([...selectedFoods, input]);
+    setRenderList(false);
     const selectedNutrients = input.foodNutrients;
     let index = 0;
     selectedNutrients.forEach((nutrient) => {
@@ -76,12 +91,24 @@ function Content() {
             size="small"
             fullWidth
             placeholder="Search Eggs, Bread, etc."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
           />
           {renderList && (
             <List
               sx={{
                 overflow: "auto",
                 maxHeight: 100,
+                zIndex: 1,
+                position: "absolute",
+                backgroundColor: "white",
+                opacity: 0.95,
+                width: "40.5%",
               }}
             >
               {foods?.map((food, index) => {
@@ -104,7 +131,7 @@ function Content() {
                   sx={{
                     backgroundColor: "magenta",
                     marginBottom: 1,
-                    borderRadius: 2
+                    borderRadius: 2,
                   }}
                 >
                   {selectedFood.description}
