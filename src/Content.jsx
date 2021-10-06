@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { round } from "lodash";
+import { useState } from 'react';
+import { round, divide } from 'lodash';
 import {
   TextField,
   Box,
@@ -10,8 +10,9 @@ import {
   ListItemText,
   ListItemButton,
   InputAdornment,
-} from "@mui/material";
-import { Search, ArrowDropDown } from "@mui/icons-material";
+  IconButton,
+} from '@mui/material';
+import { Search, ArrowDropDown, Cancel } from '@mui/icons-material';
 
 function Content() {
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -21,27 +22,27 @@ function Content() {
   const [selectedFoods, setSelectedFoods] = useState([]);
   const [renderList, setRenderList] = useState(false);
   const [nutrients, setNutrients] = useState([
-    { nutrientId: 1003, name: "Protein", value: 0, unit: "g", dri: 150 },
-    { nutrientId: 2000, name: "Sugar", value: 0, unit: "g", dri: 25 },
-    { nutrientId: 1253, name: "Cholesterol", value: 0, unit: "mg", dri: 300 },
-    { nutrientId: 1079, name: "Fiber", value: 0, unit: "g", dri: 30 },
-    { nutrientId: 1258, name: "Saturated Fat", value: 0, unit: "g", dri: 20 },
+    { nutrientId: 1003, name: 'Protein', value: 0, unit: 'g', dri: 150 },
+    { nutrientId: 2000, name: 'Sugar', value: 0, unit: 'g', dri: 25 },
+    { nutrientId: 1253, name: 'Cholesterol', value: 0, unit: 'mg', dri: 300 },
+    { nutrientId: 1079, name: 'Fiber', value: 0, unit: 'g', dri: 30 },
+    { nutrientId: 1258, name: 'Saturated Fat', value: 0, unit: 'g', dri: 20 },
     {
       nutrientId: 1292,
-      name: "Monounsaturated Fat",
+      name: 'Monounsaturated Fat',
       value: 0,
-      unit: "g",
+      unit: 'g',
       dri: 30,
     },
     {
       nutrientId: 1293,
-      name: "Polyunsaturated Fat",
+      name: 'Polyunsaturated Fat',
       value: 0,
-      unit: "g",
+      unit: 'g',
       dri: 30,
     },
-    { nutrientId: 1093, name: "Sodium", value: 0, unit: "mg", dri: 1500 },
-    { nutrientId: 1092, name: "Potassium", value: 0, unit: "mg", dri: 4500 },
+    { nutrientId: 1093, name: 'Sodium', value: 0, unit: 'mg', dri: 1500 },
+    { nutrientId: 1092, name: 'Potassium', value: 0, unit: 'mg', dri: 4500 },
   ]);
 
   const handleSearch = async (input) => {
@@ -76,6 +77,25 @@ function Content() {
     });
   };
 
+  const handleDelete = async (input) => {
+    setSelectedFoods(
+      selectedFoods.filter((item) => item.description !== input.description)
+    );
+    const selectedNutrients = input.foodNutrients;
+    let index = 0;
+    selectedNutrients.forEach((nutrient) => {
+      index = nutrients.findIndex(
+        (obj) => obj.nutrientId === nutrient.nutrientId
+      );
+      if (index >= 0) {
+        let updatedNutrients = [...nutrients];
+        updatedNutrients[index].value -= nutrient.value;
+        updatedNutrients[index].value = round(updatedNutrients[index].value, 2);
+        setNutrients(updatedNutrients);
+      }
+    });
+  };
+
   return (
     <Grid container spacing={2} p={2}>
       <Grid item xs={12}>
@@ -100,13 +120,13 @@ function Content() {
           {renderList && (
             <List
               sx={{
-                overflow: "auto",
+                overflow: 'auto',
                 maxHeight: 100,
                 zIndex: 1,
-                position: "absolute",
-                backgroundColor: "white",
+                position: 'absolute',
+                backgroundColor: 'white',
                 opacity: 0.95,
-                width: "40.5%",
+                width: '40.5%',
               }}
             >
               {foods?.map((food, index) => {
@@ -127,13 +147,16 @@ function Content() {
               return (
                 <ListItem
                   sx={{
-                    bgcolor: "primary.light",
+                    bgcolor: 'primary.light',
                     marginBottom: 1,
                     borderRadius: 2,
-                    color: "white",
+                    color: 'white',
                   }}
                 >
-                  {selectedFood.description}
+                  <ListItemText>{selectedFood.description}</ListItemText>
+                  <IconButton onClick={() => handleDelete(selectedFood)}>
+                    <Cancel />
+                  </IconButton>
                 </ListItem>
               );
             })}
@@ -147,21 +170,30 @@ function Content() {
                 <ListItem
                   key={index}
                   sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                   }}
                 >
                   <ListItemText primary={`${nutrient.name}`} />
-                  <Grid container direction="column" sx={{ width: "75%" }}>
+                  <Grid container direction="column" sx={{ width: '75%' }}>
                     <Grid item>
-                      <ArrowDropDown sx={{ marginLeft: -1 }} />
+                      <ArrowDropDown
+                        sx={{
+                          marginLeft:
+                            nutrient.value < nutrient.dri * 2
+                              ? `${
+                                  divide(nutrient.value, nutrient.dri * 2) * 100
+                                }%`
+                              : '97%',
+                        }}
+                      />
                     </Grid>
                     <Grid item>
                       <Box
                         sx={{
                           height: 4,
-                          bgcolor: "primary.light",
+                          bgcolor: 'primary.light',
                           borderRadius: 5,
                         }}
                       />
