@@ -30,15 +30,19 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/ApolloEagle/nutrient-tracker.git
    ```
-2. Install NPM packages
+2. Navigate to repo
+   ```sh
+   cd nutrient-tracker/
+   ```
+3. Install NPM packages
    ```sh
    npm install
    ```
-3. create a `.env.local` file in root and add API Key
+4. create a `.env.local` file in root and add API Key
    ```js
    REACT_APP_API_KEY=<YOUR API KEY>;
    ```
-4. Run application
+5. Run application
    ```sh
    npm start
    ```
