@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { round, divide } from "lodash";
+import { round } from "lodash";
 import {
   TextField,
   Box,
@@ -11,7 +11,7 @@ import {
   ListItemButton,
   InputAdornment,
 } from "@mui/material";
-import Search from "@mui/icons-material/Search";
+import { Search, ArrowDropDown } from "@mui/icons-material";
 
 function Content() {
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -43,8 +43,6 @@ function Content() {
     { nutrientId: 1093, name: "Sodium", value: 0, unit: "mg", dri: 1500 },
     { nutrientId: 1092, name: "Potassium", value: 0, unit: "mg", dri: 4500 },
   ]);
-
-  console.log(selectedFoods);
 
   const handleSearch = async (input) => {
     setRenderList(false);
@@ -129,9 +127,10 @@ function Content() {
               return (
                 <ListItem
                   sx={{
-                    backgroundColor: "magenta",
+                    bgcolor: "primary.light",
                     marginBottom: 1,
                     borderRadius: 2,
+                    color: "white",
                   }}
                 >
                   {selectedFood.description}
@@ -145,10 +144,29 @@ function Content() {
           {!!nutrients &&
             nutrients.map((nutrient, index) => {
               return (
-                <ListItem key={index}>
-                  <ListItemText
-                    primary={`${nutrient.name}: ${nutrient.value}${nutrient.unit}`}
-                  />
+                <ListItem
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <ListItemText primary={`${nutrient.name}`} />
+                  <Grid container direction="column" sx={{ width: "75%" }}>
+                    <Grid item>
+                      <ArrowDropDown sx={{ marginLeft: -1 }} />
+                    </Grid>
+                    <Grid item>
+                      <Box
+                        sx={{
+                          height: 4,
+                          bgcolor: "primary.light",
+                          borderRadius: 5,
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
                 </ListItem>
               );
             })}
