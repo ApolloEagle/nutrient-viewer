@@ -79,7 +79,7 @@ function Content() {
 
   const handleDelete = async (input) => {
     setSelectedFoods(
-      selectedFoods.filter((item) => item.description !== input.description)
+      selectedFoods.filter((item) => item.fdcId !== input.fdcId)
     );
     const selectedNutrients = input.foodNutrients;
     let index = 0;
@@ -131,8 +131,8 @@ function Content() {
             >
               {foods?.map((food, index) => {
                 return (
-                  <ListItemButton dense={true}>
-                    <ListItem key={index} onClick={() => handleSelect(food)}>
+                  <ListItemButton dense={true} key={index}>
+                    <ListItem onClick={() => handleSelect(food)}>
                       <ListItemText primary={food.description} />
                     </ListItem>
                   </ListItemButton>
@@ -143,9 +143,10 @@ function Content() {
         </Box>
         <List>
           {!!selectedFoods &&
-            selectedFoods.map((selectedFood) => {
+            selectedFoods.map((selectedFood, index) => {
               return (
                 <ListItem
+                  key={index}
                   sx={{
                     bgcolor: 'primary.light',
                     marginBottom: 1,
@@ -175,19 +176,33 @@ function Content() {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <ListItemText primary={`${nutrient.name}`} />
+                  <ListItemText
+                    primary={`${nutrient.name} (${nutrient.unit})`}
+                  />
                   <Grid container direction="column" sx={{ width: '75%' }}>
                     <Grid item>
-                      <ArrowDropDown
+                      <Box
                         sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexFlow: 'column',
                           marginLeft:
                             nutrient.value < nutrient.dri * 2
                               ? `${
-                                  divide(nutrient.value, nutrient.dri * 2) * 100
+                                  divide(nutrient.value, nutrient.dri * 2) *
+                                    100 -
+                                  1
                                 }%`
                               : '97%',
                         }}
-                      />
+                      >
+                        <Box
+                          sx={{ paddingLeft: nutrient.value === 0 ? 0.75 : 0 }}
+                        >
+                          {nutrient.value}
+                        </Box>
+                        <ArrowDropDown />
+                      </Box>
                     </Grid>
                     <Grid item>
                       <Box
