@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { round, divide } from "lodash";
+import { TransitionGroup } from "react-transition-group";
 import {
   TextField,
   Box,
@@ -11,6 +12,7 @@ import {
   ListItemButton,
   InputAdornment,
   IconButton,
+  Collapse,
 } from "@mui/material";
 import { Search, ArrowDropDown, Cancel } from "@mui/icons-material";
 
@@ -140,25 +142,33 @@ function Content() {
           )}
         </Box>
         <List>
-          {!!selectedFoods &&
-            selectedFoods.map((selectedFood, index) => {
-              return (
-                <ListItem
-                  key={index}
-                  sx={{
-                    bgcolor: "primary.light",
-                    marginBottom: 1,
-                    borderRadius: 2,
-                    color: "white",
-                  }}
-                >
-                  <ListItemText>{selectedFood.description}</ListItemText>
-                  <IconButton onClick={() => handleDelete(selectedFood)}>
-                    <Cancel />
-                  </IconButton>
-                </ListItem>
-              );
-            })}
+          <TransitionGroup>
+            {!!selectedFoods &&
+              selectedFoods.map((selectedFood, index) => {
+                return (
+                  <Collapse key={index}>
+                    <ListItem
+                      sx={{
+                        bgcolor: "primary.light",
+                        marginBottom: 1,
+                        borderRadius: 2,
+                        color: "white",
+                      }}
+                      secondaryAction={
+                        <IconButton
+                          edge="end"
+                          onClick={() => handleDelete(selectedFood)}
+                        >
+                          <Cancel />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemText>{selectedFood.description}</ListItemText>
+                    </ListItem>
+                  </Collapse>
+                );
+              })}
+          </TransitionGroup>
         </List>
       </Grid>
       <Grid item xs={7}>
@@ -184,6 +194,7 @@ function Content() {
                           display: "flex",
                           justifyContent: "center",
                           flexFlow: "column",
+                          transition: "margin-left 1s",
                           marginLeft:
                             nutrient.value < nutrient.dri * 2
                               ? `${
