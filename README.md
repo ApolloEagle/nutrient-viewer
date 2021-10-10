@@ -2,7 +2,7 @@
 
 ## Nutrient Tracker
 
-A frontend tool that is integrated with the [USDA's FoodData Central API](https://fdc.nal.usda.gov/) allowing you to track the nutrients of your foods.
+A web tool that is integrated with the [USDA's FoodData Central API](https://fdc.nal.usda.gov/) allowing you to track the nutrients of your foods.
 
 ### Built With
 
