@@ -2,21 +2,19 @@ import { useState } from "react";
 import { round, divide } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 import {
-  TextField,
   Box,
   Grid,
-  Typography,
   List,
   ListItem,
   ListItemText,
-  ListItemButton,
-  InputAdornment,
   IconButton,
   Collapse,
 } from "@mui/material";
-import { Search, ArrowDropDown, Cancel } from "@mui/icons-material";
+import { ArrowDropDown, Cancel } from "@mui/icons-material";
+import FoodSearch from "../molecules/FoodSearch/FoodSearch";
+import Header from "../atoms/Header/Header";
 
-function Content() {
+function NutrientPage() {
   const apiKey = process.env.REACT_APP_API_KEY;
   const baseUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${apiKey}&query=`;
 
@@ -99,48 +97,15 @@ function Content() {
   return (
     <Grid container spacing={2} p={2}>
       <Grid item xs={12}>
-        <Typography variant="h4">Nutrient Tracker</Typography>
+        <Header variant="h4" text="Nutrient Tracker" />
       </Grid>
       <Grid item xs={5}>
-        <Box>
-          <TextField
-            variant="standard"
-            onChange={(e) => handleSearch(e.target.value)}
-            size="small"
-            fullWidth
-            placeholder="Search Eggs, Bread, etc."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-          />
-          {renderList && (
-            <List
-              sx={{
-                overflow: "auto",
-                maxHeight: 100,
-                zIndex: 1,
-                position: "absolute",
-                backgroundColor: "white",
-                opacity: 0.95,
-                width: "40.5%",
-              }}
-            >
-              {foods?.map((food, index) => {
-                return (
-                  <ListItemButton dense={true} key={index}>
-                    <ListItem onClick={() => handleSelect(food)}>
-                      <ListItemText primary={food.description} />
-                    </ListItem>
-                  </ListItemButton>
-                );
-              })}
-            </List>
-          )}
-        </Box>
+        <FoodSearch
+          list={foods}
+          handleSearch={handleSearch}
+          handleSelect={handleSelect}
+          renderList={renderList}
+        />
         <List>
           <TransitionGroup>
             {!!selectedFoods &&
@@ -232,4 +197,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default NutrientPage;

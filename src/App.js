@@ -1,7 +1,7 @@
-import Content from './Content';
+import NutrientPage from './components/pages/NutrientPage';
 
 function App() {
-  return <Content />;
+  return <NutrientPage />;
 }
 
 export default App;
