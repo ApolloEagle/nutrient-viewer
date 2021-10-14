@@ -1,7 +1,6 @@
-import { Cancel } from "@mui/icons-material";
+import React from "react";
+import { Delete } from "@mui/icons-material";
 
-function DeleteIcon() {
-  return <Cancel />;
-}
+const DeleteIcon = () => <Delete />;
 
 export default DeleteIcon;

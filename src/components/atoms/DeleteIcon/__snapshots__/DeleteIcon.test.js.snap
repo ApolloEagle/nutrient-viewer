@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delete Icon Renders delete icon 1`] = `<Memo(ForwardRef(DeleteIcon)) />`;
+
+exports[`Delete icon unit test Renders delete icon 1`] = `<Memo(ForwardRef(DeleteIcon)) />`;
