@@ -1,6 +1,7 @@
+import React from "react";
 import { TextField, InputAdornment } from "@mui/material";
 
-function SearchInput(props) {
+const SearchInput = (props) => {
   return (
     <TextField
       {...props}
@@ -13,6 +14,6 @@ function SearchInput(props) {
       }}
     />
   );
-}
+};
 
 export default SearchInput;
