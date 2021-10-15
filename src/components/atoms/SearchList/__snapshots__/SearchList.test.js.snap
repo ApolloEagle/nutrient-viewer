@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search List Renders search list 1`] = `
+<ForwardRef(List)
+  sx={
+    Object {
+      "backgroundColor": "white",
+      "maxHeight": 100,
+      "opacity": 0.95,
+      "overflow": "auto",
+      "position": "absolute",
+      "width": "40.5%",
+      "zIndex": 1,
+    }
+  }
+/>
+`;
