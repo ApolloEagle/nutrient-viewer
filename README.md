@@ -9,7 +9,7 @@ A web tool that is integrated with the [USDA's FoodData Central API](https://fdc
 - [React.js](https://reactjs.org/)
 - [Material UI](https://mui.com/)
 - [Lodash](https://lodash.com/)
-- [Mocha](https://mochajs.org/)
+- [Jest](https://jestjs.io/)
 
 <!-- GETTING STARTED -->
 
