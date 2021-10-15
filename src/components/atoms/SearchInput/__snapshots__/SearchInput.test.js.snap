@@ -4,7 +4,9 @@ exports[`Search Input Renders search input 1`] = `
 <ForwardRef(TextField)
   InputProps={
     Object {
-      "startAdornment": <ForwardRef(InputAdornment) />,
+      "startAdornment": <ForwardRef(InputAdornment)
+        position="start"
+      />,
     }
   }
 />

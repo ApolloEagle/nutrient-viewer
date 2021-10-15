@@ -1,19 +1,13 @@
-import React from "react";
-import { TextField, InputAdornment } from "@mui/material";
+import React from 'react';
+import { TextField, InputAdornment } from '@mui/material';
 
-const SearchInput = (props) => {
-  return (
-    <TextField
-      {...props}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position={props.position}>
-            {props.icon}
-          </InputAdornment>
-        ),
-      }}
-    />
-  );
-};
+const SearchInput = ({ icon, ...otherProps }) => (
+  <TextField
+    {...otherProps}
+    InputProps={{
+      startAdornment: <InputAdornment position="start">{icon}</InputAdornment>,
+    }}
+  />
+);
 
 export default SearchInput;

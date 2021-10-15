@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
-import SearchInput from "../../atoms/SearchInput/SearchInput";
-import SearchIcon from "../../atoms/SearchIcon/SearchIcon";
-import SearchList from "../../atoms/SearchList";
+import { Box } from '@mui/material';
+import SearchInput from '../../atoms/SearchInput/SearchInput';
+import SearchIcon from '../../atoms/SearchIcon/SearchIcon';
+import SearchList from '../../atoms/SearchList';
 
 function Search({ list, handleSearch, handleSelect, renderList }) {
   return (
@@ -12,7 +12,6 @@ function Search({ list, handleSearch, handleSelect, renderList }) {
         fullWidth
         placeholder="Search Eggs, Bread, etc."
         onChange={(e) => handleSearch(e.target.value)}
-        position="start"
         icon={<SearchIcon />}
       />
       {!!renderList && (

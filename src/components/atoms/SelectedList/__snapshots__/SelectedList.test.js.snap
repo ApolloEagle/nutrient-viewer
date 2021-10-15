@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selected List Renders selected list 1`] = `
+<ForwardRef(List)>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  />
+</ForwardRef(List)>
+`;
