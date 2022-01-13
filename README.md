@@ -43,7 +43,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 4. create a `.env.local` file in root and add API Key
    ```js
-   REACT_APP_API_KEY=<YOUR_API_KEY>;
+   REACT_APP_API_KEY=YOUR_API_KEY;
    ```
 5. Run application
    ```sh
